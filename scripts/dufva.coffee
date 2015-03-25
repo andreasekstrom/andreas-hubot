@@ -4,7 +4,7 @@
 # Commands:
 #   hubot <lunch at> dufva
         
-Crawler = require("crawler").Crawler;
+Crawler = require("crawler");
 
 module.exports = (robot) ->
   robot.respond /dufva/i, (msg) ->

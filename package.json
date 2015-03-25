@@ -23,7 +23,7 @@
     "hubot": ">= 2.8.2 < 3.0.0",
     "hubot-scripts": ">= 2.5 < 3.0.0",
     "hubot-hipchat": "^2.7.5",
-    "crawler": ">= 0.2",
+    "crawler": ">= 0.4",
     "moment": ">2.0"
   },
   "engines": {

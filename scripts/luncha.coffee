@@ -4,7 +4,7 @@
 # Commands:
 #   hubot luncha
         
-Crawler = require("crawler").Crawler;
+Crawler = require("crawler");
 moment = require("moment");
 
 swedishWeekdays = ['SÖNDAG','MÅNDAG', 'TISDAG', 'ONSDAG', 'TORSDAG', 'FREDAG', 'LÖRDAG']

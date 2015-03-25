@@ -35,7 +35,7 @@ scrapePrimaten = (msg) ->
     "callback": (error,result,$) ->
 
       week = $("h3:contains('HELA VECKAN')")
-      for item in ['SOPPA', 'LYX']
+      for item in ['VEG', 'SOPPA', 'LYX']
         do ->
           theme = week.nextAll("p:contains('#{item}')")
           menu.push "#{item} - #{theme.next("p").text()}"

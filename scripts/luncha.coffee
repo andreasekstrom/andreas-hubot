@@ -34,11 +34,12 @@ scrapePrimaten = (msg) ->
     "forceUTF8":true,
     "callback": (error,result,$) ->
 
-      week = $("h3:contains('HELA VECKAN')")
-      for item in ['VEG', 'SOPPA', 'LYX']
+      weekItems = $("div.hela-veckan").find('p')
+      menu.push "Hela veckan:\n"
+          
+      for item in weekItems
         do ->
-          theme = week.nextAll("p:contains('#{item}')")
-          menu.push "#{item} - #{theme.next("p").text()}"
+          menu.push "#{$(item).text()}\n"
           
       weekday = moment().weekday()
       swedishName = swedishWeekdays[weekday]

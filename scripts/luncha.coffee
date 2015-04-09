@@ -39,7 +39,7 @@ scrapePrimaten = (msg) ->
           
       for item in weekItems
         do ->
-          menu.push "#{$(item).text()}\n"
+          menu.push "#{$(item).text().replace(/(\r\n|\n|\r)/gm," - ");}\n"
           
       weekday = moment().weekday()
       swedishName = swedishWeekdays[weekday]

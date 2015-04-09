@@ -7,12 +7,13 @@
 Crawler = require("crawler");
 moment = require("moment");
 
-swedishWeekdays = ['SÖNDAG','MÅNDAG', 'TISDAG', 'ONSDAG', 'TORSDAG', 'FREDAG', 'LÖRDAG']
+swedishWeekdays = ['Söndag','Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag']
 
 module.exports = (robot) ->
   robot.respond /luncha/i, (msg) ->
     scrapeDufva(msg)
     scrapePrimaten(msg)
+    scrapeOlof(msg)
 
 scrapeDufva = (msg) ->
   menu = []
@@ -39,13 +40,29 @@ scrapePrimaten = (msg) ->
           
       for item in weekItems
         do ->
-          menu.push "#{$(item).text().replace(/(\r\n|\n|\r)/gm," - ");}"
+          menu.push "#{$(item).text().replace(/(\r\n|\n|\r)/gm," - ")}"
           
       weekday = moment().weekday()
-      swedishName = swedishWeekdays[weekday]
+      swedishName = swedishWeekdays[weekday].toUpperCase()
       day = $(".veckomeny-text h3:contains(#{swedishName})")
       
       menu.push "Special #{swedishWeekdays[weekday]} - #{day.next("p").text()}"
       
       msg.send "Primaten: \n#{menu.join('\n')}"
   c.queue("http://primaten.org/restaurangen/")
+
+scrapeOlof = (msg) ->
+  menu = []
+  c = new Crawler
+    "forceUTF8":true,
+    "callback": (error,result,$) ->
+
+      weekday = moment().weekday()
+      swedishName = swedishWeekdays[weekday]
+      day = $("table.menytext strong:contains(#{swedishName})")
+      
+      tables = $(day).parent().parent().nextAll("tr").find("table") 
+      todaysMeal =  $(tables[0]).text().replace(/(\r\n|\n|\r)/gm,"").trim()
+
+      msg.send "\nCafé Olof: #{day.text()} #{todaysMeal}"
+  c.queue("http://www.cafeolof.se/")

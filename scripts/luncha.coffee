@@ -35,11 +35,11 @@ scrapePrimaten = (msg) ->
     "callback": (error,result,$) ->
 
       weekItems = $("div.hela-veckan").find('p')
-      menu.push "Hela veckan:\n"
+      menu.push "Hela veckan:"
           
       for item in weekItems
         do ->
-          menu.push "#{$(item).text().replace(/(\r\n|\n|\r)/gm," - ");}\n"
+          menu.push "#{$(item).text().replace(/(\r\n|\n|\r)/gm," - ");}"
           
       weekday = moment().weekday()
       swedishName = swedishWeekdays[weekday]

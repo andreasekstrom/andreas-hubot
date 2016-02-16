@@ -9,7 +9,7 @@ moment = require("moment");
 
 module.exports = (robot) ->
   robot.respond /luncha/i, (msg) ->
-    msg.send "Idag (#{toDayInSwedish()}) får ni välja på... \n\n"
+    msg.send "Idag (#{toDayInSwedish()}) får ni välja på... (theyregreat) \n\n"
     
     scrapeDufva(msg)
     scrapePrimaten(msg)

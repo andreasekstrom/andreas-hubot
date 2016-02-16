@@ -7,11 +7,9 @@
 Crawler = require("crawler");
 moment = require("moment");
 
-swedishWeekdays = ['Söndag','Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag']
-
 module.exports = (robot) ->
   robot.respond /luncha/i, (msg) ->
-    msg.send "Idag får ni välja på... \n\n"
+    msg.send "Idag (#{toDayInSwedish()}) får ni välja på... \n\n"
     
     scrapeDufva(msg)
     scrapePrimaten(msg)
@@ -24,10 +22,7 @@ scrapeDufva = (msg) ->
     "forceUTF8":true,
     "callback": (error,result,$) ->
 
-      weekday = moment().weekday()
-      swedishName = swedishWeekdays[weekday]
-      console.log(swedishName)
-      day = $("#lunchPrint h4:contains(#{swedishName})")
+      day = $("#lunchPrint h4:contains(#{toDayInSwedish()})")
       dishes = ((day = day.next("p")).text() for n in [1..4])
 
       for item in dishes 
@@ -41,20 +36,9 @@ scrapePrimaten = (msg) ->
   c = new Crawler
     "forceUTF8":true,
     "callback": (error,result,$) ->
-
-      # Primaten verkar inte visa 'hela veckan' längre på sin meny, men jag lämnar koden här ifall de byter igen...
-      # weekItems = $("div.hela-veckan").find('p')
-      # menu.push "Hela veckan:"
           
-      # for item in weekItems
-      #   do ->
-      #     menu.push "#{$(item).text().replace(/(\r\n|\n|\r)/gm," - ")}"
-          
-      weekday = moment().weekday()
-      swedishName = swedishWeekdays[weekday].toUpperCase()
-      day = $(".veckomeny-text h3:contains(#{swedishName})")
-      
-      menu.push "Special idag: #{swedishWeekdays[weekday]} - #{day.next("p").text()}"
+      day = $(".veckomeny-text h3:contains(#{toDayInSwedish().toUpperCase()})")
+      menu.push "Special idag: #{day.next("p").text()}"
       
       msg.send "\nPrimaten: \n#{menu.join('\n')}"
   c.queue("http://primaten.org/restaurangen/")
@@ -65,17 +49,18 @@ scrapeThaibreak = (msg) ->
     "forceUTF8":true,
     "callback": (error,result,$) ->
 
-      weekday = moment().weekday()
-      swedishName = swedishWeekdays[weekday]
-      day = $(".sidebar_content h3:contains(#{swedishName})")
+      day = $(".sidebar_content h3:contains(#{toDayInSwedish()})")
       dishes = ((day = day.next("p")).text() for n in [1..4])
 
-      msg.send "\nThaibreak - #{swedishName}\n#{dishes.join('\n')}"
+      msg.send "\nThaibreak\n#{dishes.join('\n')}"
       
   week_description = if (moment().week() % 2 == 0) then "jamn-vecka" else "udda-vecka"
   c.queue("http://www.thaibreak.se/" + week_description)
 
-
+toDayInSwedish = ->
+  swedishWeekdays = ['Söndag','Måndag', 'Tisdag', 'Onsdag', 'Torsdag', 'Fredag', 'Lördag']
+  weekday = moment().weekday()
+  swedishWeekdays[weekday]    
 
 
 

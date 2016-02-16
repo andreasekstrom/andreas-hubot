@@ -1,5 +1,5 @@
 # Description:
-#   Find whats for lunch today at some places near UCR, Uppsala
+#   Find whats for lunch today at some places near UCR, Uppsala, Sweden
 #
 # Commands:
 #   hubot luncha
@@ -24,13 +24,17 @@ scrapeDufva = (msg) ->
     "forceUTF8":true,
     "callback": (error,result,$) ->
 
-      text = $('table[bgcolor="#EEEEEE"]').find('td.text').text()
-      items = text.split('- ')
-      for item in items 
+      weekday = moment().weekday()
+      swedishName = swedishWeekdays[weekday]
+      console.log(swedishName)
+      day = $("#lunchPrint h4:contains(#{swedishName})")
+      dishes = ((day = day.next("p")).text() for n in [1..4])
+
+      for item in dishes 
         do ->
-          menu.push "#{item}\n"
-      msg.send "\nDufva: #{menu.join('')}"
-  c.queue("http://www.svendufva.com/")
+          menu.push "* #{item}\n"
+      msg.send "\nDufva:\n#{menu.join('')}"
+  c.queue("http://www.svendufva.se/")
 
 scrapePrimaten = (msg) ->
   menu = []

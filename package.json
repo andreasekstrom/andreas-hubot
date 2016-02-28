@@ -20,14 +20,15 @@
     "url": "https://github.com/github/hubot.git"
   },
   "dependencies": {
-    "hubot": ">= 2.8.2 < 3.0.0",
-    "hubot-scripts": ">= 2.5 < 3.0.0",
-    "hubot-hipchat": "^2.7.5",
     "crawler": ">= 0.4",
+    "hubot": ">= 2.8.2 < 3.0.0",
+    "hubot-google-images": "^0.2.6",
+    "hubot-hipchat": "^2.7.5",
+    "hubot-scripts": ">= 2.5 < 3.0.0",
     "moment": ">2.0"
   },
   "engines": {
-    "node": "0.10.x",
-    "npm": ">= 1.1.x < 2.0.0"
+    "node": ">= 5.5",
+    "npm": ">= 3.7"
   }
 }
